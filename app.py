@@ -1,87 +1,118 @@
 import streamlit as st
-import math
 
-st.set_page_config(page_title="Kalkulator pH & pOH", layout="centered")
+# Ganti dengan direct image URL kamu
+background_url = "https://i.ibb.co.com/xqwsXfq8/IMG-0774.jpg"
 
-# Title
-st.title("🧪 Kalkulator pH & pOH Larutan")
-st.header("🧪 Kalkulator pH & pOH Larutan")
-st.subheader("🧪 Kalkulator pH & pOH Larutan")
-st.markdown("🧪 Kalkulator pH & pOH Larutan")
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url("{background_url}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-# Description
-st.write("""
-Aplikasi ini membantu menghitung nilai pH dan pOH larutan berdasarkan input konsentrasi ion [H⁺] atau [OH⁻].
-""")
+# ---------- SESSION STATE UNTUK NAVIGASI ----------
+if 'page' not in st.session_state:
+    st.session_state.page = 0
 
-# Sidebar for input
-with st.sidebar:
-    st.header("Input Parameter")
-    ion_type = st.radio("Pilih jenis ion yang diketahui:", ("[H⁺]", "[OH⁻]"))
-    concentration = st.number_input(f"Masukkan konsentrasi {ion_type} (mol/L):", min_value=1e-14, max_value=1.0, format="%.2e")
-    show_dark_mode = st.checkbox("Aktifkan Mode Gelap")
-
-# Apply dark mode
-if show_dark_mode:
+# ---------- HALAMAN-HALAMAN ----------
+def halaman_1():
     st.markdown(
         """
-        <style>
-            body { background-color: #1e1e1e; color: white; }
-            .stApp { background-color: #1e1e1e; }
-        </style>
-        """, unsafe_allow_html=True
+        <h1 style="
+            font-weight: 1000;
+            color: #1A1A1A;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        ">
+            🥦Helloooww welcome at VeggieBites guys!!
+        </h1>
+        """, 
+        unsafe_allow_html=True
     )
 
-# Divider
-st.markdown("---")
+    st.markdown("Cari tahu yukk tipe vegetarian kamu yang mana biar kita bisa bantu kasih menu sehat yang sesuai buat kamuu><.")
 
-if st.button("Hitung pH dan pOH"):
-    if ion_type == "[H⁺]":
-        pH = -math.log10(concentration)
-        pOH = 14 - pH
-    else:
-        pOH = -math.log10(concentration)
-        pH = 14 - pOH
+    pilihan = st.radio(
+        "Kamu termasuk tipe vegetarian yang mana nih?",
+        [
+            "Lacto-ovo (telur & susu masih aku makan sieh)",
+            "Lacto (only susu, telur big no no)",
+            "Ovo (telur oke sieh, tapi susu ga dulu deh)",
+            "Vegan total (no hewani et all)"
+        ]
+    )
+    
+    if st.button("Next"):
+        st.session_state.page += 1
 
-    if pH < 7:
-        sifat = "Asam"
-        sifat_desc = "Asam berarti larutan memiliki ion H⁺ yang lebih banyak daripada OH⁻."
-    elif pH == 7:
-        sifat = "Netral"
-        sifat_desc = "Larutan netral memiliki konsentrasi ion H⁺ dan OH⁻ yang seimbang."
-    else:
-        sifat = "Basa"
-        sifat_desc = "Basa berarti larutan memiliki ion OH⁻ yang lebih banyak daripada H⁺."
 
-    if pH < 4:
-        indikator = "Metil Merah"
-    elif 4 <= pH < 7:
-        indikator = "Bromtimol Biru"
-    elif 7 <= pH < 10:
-        indikator = "Fenolftalein"
-    else:
-        indikator = "Lakmus Biru"
+def halaman_2():
+    st.title("Kebutuhan Nutrisi Kamu")
+    st.markdown("Sebagai vegetarian, kamu perlu perhatian khusus pada beberapa nutrisi ini loh:")
+    st.markdown("""
+    - Protein: Tempe, tahu, kacang-kacangan, Telur, Biji Chia, Quinoa, Bayam
+    - Zat Besi: Bayam, Brokoli, Kacang Merah, Buncis, Lentil
+    - Vitamin B12: Susu Kedelai Fortifikasi, suplemen, Serealia, Nori
+    - Kalsium: Tahu, Almond, Sayur Hijau, Susu Kedelai
+    - Omega-3: Flaxseed, Spirulina, Chlorella
+    """)
+    if st.button("Next"):
+        st.session_state.page += 1
+    if st.button("Back"):
+        st.session_state.page -= 1
 
-    st.success(f"pH: {pH:.2f}")
-    st.info(f"pOH: {pOH:.2f}")
-    st.warning(f"Sifat larutan: {sifat}")
-    st.caption(sifat_desc)
-    st.markdown(f"**🔬 Rekomendasi indikator pH:** {indikator}")
 
-    # Visualisasi
-    st.subheader("🌈 Visualisasi Skala pH")
-    colors = ["#ff0000", "#ff4500", "#ffa500", "#ffff00", "#adff2f", "#00ff00",
-              "#00fa9a", "#00ced1", "#1e90ff", "#4169e1", "#0000cd", "#00008b", "#191970", "#4b0082", "#8a2be2"]
+def halaman_3():
+    st.title("Rekomendasi Menu Vegetarian Buat Kamu")
+    st.subheader("1. 💚Smoothie Green💚")
+    st.markdown("Bahan: Bayam, pisang, susu almond, chia seed")
+    st.subheader("2. 🫑Tofu Stir Fry🥕")
+    st.markdown("Bahan: Tahu, paprika, wortel, kecap asin")
+    if st.button("Next"):
+        st.session_state.page += 1
+    if st.button("Back"):
+        st.session_state.page -= 1
 
-    st.markdown("<div style='display: flex; flex-direction: row;'>", unsafe_allow_html=True)
-    for i in range(15):
-        highlight = "border: 3px solid black;" if int(round(pH)) == i else ""
-        st.markdown(
-            f"<div style='background-color: {colors[i]}; width: 30px; height: 40px; margin-right: 2px; {highlight}' title='pH {i}'></div>",
-            unsafe_allow_html=True
-        )
-    st.markdown("</div>", unsafe_allow_html=True)
-    st.caption(f"pH kamu di sekitar angka {round(pH)} pada skala warna di atas.")
 
-st.markdown("---")
-st.caption("📘 Made with Streamlit for educational purposes.")
+def halaman_4():
+    st.title("Cari Pengganti Bahan")
+    bahan_input = st.text_input("Masukkan nama bahan yang mau diganti:")
+    pengganti = {
+        "susu": "susu almond / oat milk",
+        "telur": "chia egg (chia + air)",
+        "daging": "jamur, tempe, atau tofu",
+        "keju": "keju vegan berbasis kacang"
+    }
+    if st.button("Search"):
+        hasil = pengganti.get(bahan_input.lower(), "Bahan tidak ditemukan")
+        st.success(f"Pengganti untuk {bahan_input}: {hasil}")
+
+    if st.button("Next"):
+        st.session_state.page += 1
+    if st.button("Back"):
+        st.session_state.page -= 1
+
+
+def halaman_5():
+    st.title("Terima Kasih Telah Berkunjung!")
+    st.markdown("Semoga VeggieBites bermanfaat untuk kamu!")
+    if st.button("Back"):
+        st.session_state.page -= 1
+
+
+# ini juga
+halaman_fungsi = [halaman_1, halaman_2, halaman_3, halaman_4, halaman_5]
+
+# tambahin nih
+halaman_fungsi[st.session_state.page]()
